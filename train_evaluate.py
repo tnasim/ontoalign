@@ -73,10 +73,27 @@ if SELECTED_MODEL != 'XGBoost':
         elif SELECTED_DATASET == 'dataset2':
             model = RandomForestClassifier(n_estimators=100, max_features=None,
                                            max_depth=2)
+    elif SELECTED_MODEL == 'MLPClassifier':
+        print("Training multi-layer perceptron...")
+        from sklearn.neural_network import MLPClassifier
+
+        model = MLPClassifier(solver='lbfgs', alpha=1e-5, hidden_layer_sizes=(5, 2), random_state=1)
+        
+    elif SELECTED_MODEL == 'SVM':
+        print("Training Support Vector Machine...")
+        from sklearn import svm
+        model = svm.SVC(probability=True)
+    
+    elif SELECTED_MODEL == 'SGDClassifier':
+        print("Training Stochastic Gradient Descent...")
+        from sklearn.linear_model import SGDClassifier
+
+        model = SGDClassifier(loss="log", max_iter=5)
 
     model.fit(X_train, y_train)
     print("Predicting for testing dataset...")
     y_prob = model.predict_proba(X_test)
+
 
 elif SELECTED_MODEL == 'XGBoost':
     import xgboost as xgb
