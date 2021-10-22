@@ -7,6 +7,7 @@ __pycache__/
 *.csv
 *.bin
 *.gz
+*.h5
 
 # C extensions
 *.so
