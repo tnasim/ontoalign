@@ -1,8 +1,9 @@
 # dataset1 or dataset2
 DATASET: 'dataset2'
 
-# LogisticRegression or RandomForest or XGBoost or MLPClassifier or SVM or SGDClassifier
-MODEL: 'SGDClassifier'
+# LogisticRegression or RandomForest or GPC or MLPClassifier or SVM or SVM_RBF or SGDClassifier or KNN_2 or KNN_3 or KNN_5 or KNN_7
+# GPC == GaussianProcessClassifier
+MODEL: 'LogisticRegression'
 
 dataset1:
   PATH_TO_ONTOLOGIES: 'dataset1/ontologies/'
