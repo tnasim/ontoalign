@@ -1,5 +1,5 @@
-# dataset1 or dataset2
-DATASET: 'dataset2'
+# dataset1 or dataset1Extended or dataset2 or biodiv or phenotype or largebio
+DATASET: 'dataset1'
 
 # LogisticRegression or RandomForest or GPC or MLPClassifier or SVM or SVM_RBF or SGDClassifier or KNN_2 or KNN_3 or KNN_5 or KNN_7
 # GPC == GaussianProcessClassifier
@@ -17,9 +17,9 @@ dataset1:
     - '304.rdf'
   PATH_TO_ALIGNMENTS: 'dataset1/alignments/'
   TRAIN_ALIGNMENTS:
-    - '101-301.rdf'
     - '101-102.rdf'
     - '101-103.rdf'
+    - '101-301.rdf'
   TEST_ALIGNMENTS:
     - '101-302.rdf'
     - '101-303.rdf'
@@ -80,3 +80,219 @@ dataset2:
     - 'edas-iasted.rdf'
     - 'ekaw-iasted.rdf'
     - 'confof-sigkdd.rdf'
+
+
+conference:
+  PATH_TO_ONTOLOGIES: 'conference/ontologies/'
+  ONTOLOGIES:
+    - 'confof.owl'
+    - 'edas.owl'
+    - 'conference.owl'
+    - 'myreview.owl'
+    - 'sigkdd.owl'
+    - 'linklings.owl'
+    - 'pcs.owl'
+    - 'paperdyne.owl'
+    - 'openconf.owl'
+    - 'cmt.owl'
+    - 'iasted.owl'
+    - 'crs_dr.owl'
+    - 'micro.owl'
+    - 'ekaw.owl'
+    - 'confious.owl'
+    - 'cocus.owl'
+  PATH_TO_ALIGNMENTS: 'conference/alignments/'
+  TRAIN_ALIGNMENTS:
+    - 'cmt-conference.rdf'
+    - 'conference-iasted.rdf'
+    - 'edas-ekaw.rdf'
+  TEST_ALIGNMENTS:
+    - 'conference-edas.rdf'
+    - 'cmt-sigkdd.rdf'
+    - 'edas-sigkdd.rdf'
+    - 'ekaw-sigkdd.rdf'
+    - 'cmt-edas.rdf'
+    - 'conference-sigkdd.rdf'
+    - 'confof-edas.rdf'
+    - 'confof-iasted.rdf'
+    - 'conference-confof.rdf'
+    - 'cmt-confof.rdf'
+    - 'conference-ekaw.rdf'
+    - 'cmt-ekaw.rdf'
+    - 'confof-ekaw.rdf'
+    - 'iasted-sigkdd.rdf'
+    - 'cmt-iasted.rdf'
+    - 'edas-iasted.rdf'
+    - 'ekaw-iasted.rdf'
+    - 'confof-sigkdd.rdf'
+
+
+dataset1Extended:
+  PATH_TO_ONTOLOGIES: 'dataset1Extended/ontologies/'
+  ONTOLOGIES:
+    - '101.rdf'
+    - '102.rdf'
+    - '103.rdf'
+    - '104.rdf'
+    - '201.rdf'
+    - '202.rdf'
+    - '203.rdf'
+    - '204.rdf'
+    - '205.rdf'
+    - '206.rdf'
+    - '207.rdf'
+    - '208.rdf'
+    - '209.rdf'
+    - '210.rdf'
+    - '221.rdf'
+    - '222.rdf'
+    - '223.rdf'
+    - '224.rdf'
+    - '225.rdf'
+    - '228.rdf'
+    - '230.rdf'
+    - '231.rdf'
+    - '232.rdf'
+    - '233.rdf'
+    - '236.rdf'
+    - '237.rdf'
+    - '238.rdf'
+    - '239.rdf'
+    - '240.rdf'
+    - '241.rdf'
+    - '246.rdf'
+    - '247.rdf'
+    - '248.rdf'
+    - '249.rdf'
+    - '250.rdf'
+    - '251.rdf'
+    - '252.rdf'
+    - '253.rdf'
+    - '254.rdf'
+    - '257.rdf'
+    - '258.rdf'
+    - '259.rdf'
+    - '260.rdf'
+    - '261.rdf'
+    - '262.rdf'
+    - '265.rdf'
+    - '266.rdf'
+    - '301.rdf'
+    - '302.rdf'
+    - '303.rdf'
+    - '304.rdf'
+  PATH_TO_ALIGNMENTS: 'dataset1Extended/alignments/'
+  TRAIN_ALIGNMENTS:
+    - '101-102.rdf'
+    - '101-103.rdf'
+    - '101-201.rdf'
+    - '101-202.rdf'
+    - '101-204.rdf'
+    - '101-205.rdf'
+    - '101-206.rdf'
+    - '101-207.rdf'
+    - '101-208.rdf'
+    - '101-209.rdf'
+    - '101-221.rdf'
+    - '101-222.rdf'
+    - '101-223.rdf'
+    - '101-224.rdf'
+    - '101-225.rdf'
+    - '101-228.rdf'
+    - '101-230.rdf'
+    - '101-231.rdf'
+    - '101-232.rdf'
+    - '101-233.rdf'
+    - '101-236.rdf'
+    - '101-237.rdf'
+    - '101-238.rdf'
+    - '101-239.rdf'
+    - '101-240.rdf'
+    - '101-241.rdf'
+    - '101-246.rdf'
+    - '101-247.rdf'
+    - '101-248.rdf'
+    - '101-249.rdf'
+    - '101-250.rdf'
+    - '101-251.rdf'
+    - '101-252.rdf'
+    - '101-253.rdf'
+    - '101-254.rdf'
+    - '101-257.rdf'
+    - '101-258.rdf'
+    - '101-259.rdf'
+    - '101-260.rdf'
+    - '101-261.rdf'
+    - '101-262.rdf'
+    - '101-265.rdf'
+    - '101-266.rdf'
+    - '101-301.rdf'
+    - '101-303.rdf'
+  TEST_ALIGNMENTS:
+    - '101-104.rdf'
+    - '101-203.rdf'
+    - '101-210.rdf'
+    - '101-302.rdf'
+    - '101-304.rdf'
+
+
+# http://oaei.ontologymatching.org/2021/complex/index.html#hydrography
+hydrography:
+  PATH_TO_ONTOLOGIES: 'hydrography/ontologies/'
+  ONTOLOGIES:
+    - 'cree.owl'
+    - 'hydro3.owl'
+    - 'hydrOntology.owl'
+    - 'swo.owl'
+  PATH_TO_ALIGNMENTS: 'hydrography/alignments/'
+  TRAIN_ALIGNMENTS:
+    - 'cree-swo.owl'
+    - 'hydro3-swo.owl'
+  TEST_ALIGNMENTS:
+    - 'hydrOntology-swo.owl'
+
+
+# http://oaei.ontologymatching.org/2021/phenotype/
+phenotype:
+  PATH_TO_ONTOLOGIES: 'phenotype/ontologies/'
+  ONTOLOGIES:
+    - 'doid.owl'
+    - 'hp.owl'
+    - 'mp.owl'
+    - 'ordo.owl'
+  PATH_TO_ALIGNMENTS: 'phenotype/alignments/'
+  TRAIN_ALIGNMENTS:
+    - 'hp-mp.rdf'
+  TEST_ALIGNMENTS:
+    - 'doid-ordo.rdf'
+
+biodiv:
+  PATH_TO_ONTOLOGIES: 'biodiv/ontologies/'
+  ONTOLOGIES:
+    - 'agrovoc.rdf'
+    - 'anaee.rdf'
+    - 'envo.owl'
+    - 'gemet.rdf'
+    - 'nalt.rdf'
+    - 'sweet.owl'
+  PATH_TO_ALIGNMENTS: 'biodiv/alignments/'
+  TRAIN_ALIGNMENTS:
+    - 'envo-sweet.rdf'
+    - 'gemet-anaee.rdf'
+  TEST_ALIGNMENTS:
+    - 'agrovoc-nalt.rdf'
+
+
+# http://www.cs.ox.ac.uk/isg/projects/SEALS/oaei/2021/
+largebio:
+  PATH_TO_ONTOLOGIES: 'largebio/ontologies/'
+  ONTOLOGIES:
+    - 'FMA.owl'
+    - 'NCI.owl'
+    - 'SNOMED.owl'
+  PATH_TO_ALIGNMENTS: 'largebio/alignments/'
+  TRAIN_ALIGNMENTS:
+    - 'FMA-NCI.rdf'
+    - 'FMA-SNOMED.rdf'
+  TEST_ALIGNMENTS:
+    - 'SNOMED-NCI.rdf'

@@ -30,7 +30,7 @@ def read_ontology(path):
     return classes, properties
 
 
-def get_mappings(filename):
+def get_mappings(filename, dataset=''):
     mappings = []
 
     with open(filename) as f:
@@ -39,19 +39,22 @@ def get_mappings(filename):
     cells = soup.find_all('Cell')
 
     for cell in cells:
-        entity1 = cell.find('entity1').attrs['rdf:resource'].split('#')[1]
-        entity2 = cell.find('entity2').attrs['rdf:resource'].split('#')[1]
+        if(dataset=='biodiv' or dataset == 'phenotype'):
+            entity1 = cell.find('entity1').attrs['rdf:resource'].split('/')[-1]
+            entity2 = cell.find('entity2').attrs['rdf:resource'].split('/')[-1]
+        else:
+            entity1 = cell.find('entity1').attrs['rdf:resource'].split('#')[1]
+            entity2 = cell.find('entity2').attrs['rdf:resource'].split('#')[1]
         mappings.append((entity1, entity2))
 
     return mappings
 
 
-def get_dataset(ont1_path, ont2_path, alignment_path):
+def get_dataset(ont1_path, ont2_path, alignment_path, dataset=''):
     data = []
 
-    mappings = get_mappings(alignment_path)
+    mappings = get_mappings(alignment_path, dataset)
     mappings = [tuple(x) for x in mappings]
-    # print('Number of mappings', len(mappings))
 
     all_mappings = []
 
@@ -60,38 +63,47 @@ def get_dataset(ont1_path, ont2_path, alignment_path):
     classes2, properties2 = read_ontology(ont2_path)
 
     # Generate pairs of classes
-    class_pairs = list(itertools.product(classes1, classes2))
+    # class_pairs = list(itertools.product(classes1, classes2))
+    # print('Total class_pairs: ', len(class_pairs))
+    # for class_pair in class_pairs:
+    for class1 in classes1:
+        for class2 in classes2:
+            class_pair = (class1, class2)
+            # pair = (class_pair[0].name, class_pair[1].name)
+            pair = (class1.name, class2.name)
+            # print(pair)
+            if pair in mappings:
+                match = 1
+                # all_mappings.append(pair)
+                mappings.remove(pair)
+            else:
+                match = 0
 
-    for class_pair in class_pairs:
-        pair = (class_pair[0].name, class_pair[1].name)
-        if pair in mappings:
-            match = 1
-            all_mappings.append(pair)
-            mappings.remove(pair)
-        else:
-            match = 0
-
-        data.append((ont1_path, ont2_path, pair[0], pair[1],
-                     class_pair[0].is_a[0].name, class_pair[1].is_a[0].name,
-                     get_path(class_pair[0]), get_path(class_pair[1]), match,
-                     'Class'))
+            data.append((ont1_path, ont2_path, pair[0], pair[1],
+                        class_pair[0].is_a[0].name, class_pair[1].is_a[0].name,
+                        get_path(class_pair[0]), get_path(class_pair[1]), match,
+                        'Class'))
 
     # Generate pairs of properties
-    properties_pairs = list(itertools.product(properties1, properties2))
+    # properties_pairs = list(itertools.product(properties1, properties2))
+    # print('Total properties_pairs: ', len(properties_pairs))
+    # for prop_pair in properties_pairs:
+    for property1 in properties1:
+        for property2 in properties2:
+            # pair = (prop_pair[0].name, prop_pair[1].name)
+            pair = (property1.name, property2.name)
+            # print(pair)
+            if pair in mappings:
+                match = 1
+                # all_mappings.append(pair)
+                mappings.remove(pair)
+            else:
+                match = 0
 
-    for prop_pair in properties_pairs:
-        pair = (prop_pair[0].name, prop_pair[1].name)
-        if pair in mappings:
-            match = 1
-            all_mappings.append(pair)
-            mappings.remove(pair)
-        else:
-            match = 0
-
-        data.append((ont1_path, ont2_path, pair[0], pair[1],
-                     class_pair[0].is_a[0].name, class_pair[1].is_a[0].name,
-                     get_path(class_pair[0]), get_path(class_pair[1]), match,
-                     'Property'))
+            data.append((ont1_path, ont2_path, pair[0], pair[1],
+                        class_pair[0].is_a[0].name, class_pair[1].is_a[0].name,
+                        get_path(class_pair[0]), get_path(class_pair[1]), match,
+                        'Property'))
 
     # print('Readed mappings', len(all_mappings), '\n')
 

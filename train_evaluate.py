@@ -57,7 +57,10 @@ TEST_ALIGNMENTS = config[SELECTED_DATASET]['TEST_ALIGNMENTS']
 
 # Train model
 # 'GPC', 'SVM_RBF'
-MODELS = ['LogisticRegression', 'RandomForest', 'DecisionTreeClassifier', 'SVM', 'LDA', 'SGDClassifier', 'KNN', 'AdaBoostClassifier', 'MLPClassifier', 'GaussianNaiveBayes' ]
+MODELS = ['LogisticRegression', 'RandomForest', 'DecisionTreeClassifier', 'SVM', 'LDA', 'SGDClassifier', 'KNN', 'MLPClassifier', 'GaussianNaiveBayes' ]
+# MODELS = ['LogisticRegression' ]
+# MODELS = [ 'RandomForest', 'DecisionTreeClassifier']
+
 HEADER_NAME = {\
     'LogisticRegression': 'LR',\
     'RandomForest': 'RF',\
@@ -72,8 +75,6 @@ HEADER_NAME = {\
     'MLPClassifier': 'MLP',\
     'GaussianNaiveBayes': 'NB'\
 }
-# MODELS = ['LogisticRegression', 'RandomForest', 'SVM', 'AdaBoostClassifier' ]
-# MODELS = [ 'RandomForest', 'DecisionTreeClassifier']
 ROWS = []
 COLS = [TEST_ALIGNMENTS,]
 for SELECTED_MODEL in MODELS:
@@ -85,7 +86,7 @@ for SELECTED_MODEL in MODELS:
             print("Training logistic regression...")
             from sklearn.linear_model import LogisticRegression
 
-            if SELECTED_DATASET == 'dataset1':
+            if SELECTED_DATASET == 'dataset1' or SELECTED_DATASET == 'dataset1Extended':
                 model = LogisticRegression(penalty='l2', C=1.0, class_weight=None)
             elif SELECTED_DATASET == 'dataset2':
                 model = LogisticRegression(penalty='l2', C=7.742637,
@@ -94,7 +95,7 @@ for SELECTED_MODEL in MODELS:
             print("Training random forest classifier...")
             from sklearn.ensemble import RandomForestClassifier
 
-            if SELECTED_DATASET == 'dataset1':
+            if SELECTED_DATASET == 'dataset1' or SELECTED_DATASET == 'dataset1Extended':
                 model = RandomForestClassifier(n_estimators=500,
                                             max_features='sqrt', max_depth=3,
                                             random_state=42)
@@ -233,7 +234,7 @@ for SELECTED_MODEL in MODELS:
 
             test['Predict'] = preds
 
-            if SELECTED_DATASET == 'dataset1':
+            if SELECTED_DATASET == 'dataset1' or SELECTED_DATASET == 'dataset1Extended':
                 onto_format = 'rdf'
             elif SELECTED_DATASET == 'dataset2':
                 onto_format = 'owl'
@@ -282,21 +283,28 @@ for SELECTED_MODEL in MODELS:
 
 c = len(COLS)
 r = len(COLS[0])
+ROW_AVG = [ sum(col) for col in COLS[1:]]
 for i in range(r):
     ROW = []
     for j in range(c):
         if(j>0):
             ROW.append(round(float(COLS[j][i]), 2)) # round upto 2 decimal points
         else:
-            ROW.append(COLS[j][i]) # round upto 2 decimal points
+            ROW.append(COLS[j][i].split('.')[0]) # the alignment file name
     ROWS.append(ROW)
+
+ROW_AVG = [round(a/r, 2) for a in ROW_AVG]
+FOOTER = ['Average']
+FOOTER.extend(ROW_AVG)
+
 HEADER = ['Alignments']
 for m in MODELS:
     HEADER.append(HEADER_NAME[m])
 
 # name of csv file 
-filename = "RESULT-" + SELECTED_DATASET + ".csv"
-    
+filename = "ML-ALL-RESULTS-" + SELECTED_DATASET + ".csv"
+ROWS.append(FOOTER)
+
 # writing to csv file 
 with open(filename, 'w') as csvfile: 
     # creating a csv writer object 

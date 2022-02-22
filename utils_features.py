@@ -4,6 +4,8 @@ from re import finditer
 import ngram
 from fuzzycomp import fuzzycomp
 from gensim.models import KeyedVectors
+import gensim.downloader as api
+from gensim.models.word2vec import Word2Vec
 from nltk.corpus import wordnet
 from py_stringmatching.similarity_measure.affine import Affine
 from py_stringmatching.similarity_measure.bag_distance import BagDistance
@@ -57,10 +59,39 @@ tv_ind = TverskyIndex()
 over_coef = OverlapCoefficient()
 
 # It's long
+
+# ---------------------------------------------------------------------------------
+# Gensim word2vec Pre-trained Models:
+# ---------------------------------------------------------------------------------
+# https://radimrehurek.com/gensim/auto_examples/howtos/run_downloader_api.html
+# ---------------------------------------------------------------------------------
+# conceptnet-numberbatch-17-06-300 (1917247 records)
+# fasttext-wiki-news-subwords-300 (999999 records)
+# glove-twitter-100 (1193514 records)
+# glove-twitter-200 (1193514 records)
+# glove-twitter-25 (1193514 records)
+# glove-twitter-50 (1193514 records)
+# glove-wiki-gigaword-100 (400000 records)
+# glove-wiki-gigaword-200 (400000 records)
+# glove-wiki-gigaword-300 (400000 records)
+# glove-wiki-gigaword-50 (400000 records)
+# word2vec-google-news-300 (3000000 records)
+# word2vec-ruscorpora-300 (184973 records)
+
 print('Loading word2vec model...')
-model = KeyedVectors.load_word2vec_format('GoogleNews-vectors-negative300.bin',
-                                          binary=True)
-print('Word2vec model are loaded.')
+# model = KeyedVectors.load_word2vec_format('GoogleNews-vectors-negative300.bin', binary=True)
+# model = api.load("glove-wiki-gigaword-300")
+model = api.load("conceptnet-numberbatch-17-06-300")
+
+# model1 = api.load("glove-wiki-gigaword-300")
+# model2 = api.load("word2vec-google-news-300")
+# model3 = api.load("glove-twitter-200")
+# model4 = api.load("fasttext-wiki-news-subwords-300")
+
+# corpus = api.load('wiki-english-20171001')
+# model = Word2Vec(corpus)
+
+print('Word2vec models are loaded.')
 
 
 def camel_case_split(identifier):
@@ -69,7 +100,7 @@ def camel_case_split(identifier):
     return [m.group(0) for m in matches]
 
 
-def get_word2vec_sim(row_set1, row_set2):
+def get_word2vec_sim(row_set1, row_set2, model):
     sum_sim = 0
     N = max(len(row_set1), len(row_set2))
 
@@ -132,7 +163,10 @@ def calculate_features(dataset, string_type):
     ovs = []
     nws = []
     wordnet_sims = []
-    w2vec_sims = []
+    w2vec_sims1 = []
+    w2vec_sims2 = []
+    w2vec_sims3 = []
+    w2vec_sims4 = []
 
     if string_type == 'Entity':
         index = 2
@@ -179,6 +213,15 @@ def calculate_features(dataset, string_type):
         dices.append(dice.get_sim_score(row_set1, row_set2))
         jaccards.append(jac.get_sim_score(row_set1, row_set2))
 
+        # >>> t = wn.synsets('fly', wn.VERB)[0]
+        # >>> s = wn.synsets('say', wn.VERB)[0]
+        # >>> print(s.shortest_path_distance(t))
+        # None
+        # >>> print(s.path_similarity(t, simulate_root=False))
+        # None
+        # >>> print(s.lch_similarity(t, simulate_root=False))
+        # None
+        # >>> print(s.wup_similarity(t, simulate_root=False))
         allsyns1 = set(ss for word in row_set1 for ss in wordnet.synsets(word))
         allsyns2 = set(ss for word in row_set2 for ss in wordnet.synsets(word))
 
@@ -188,8 +231,12 @@ def calculate_features(dataset, string_type):
             wordnet_sims.append(best[0])
         else:
             wordnet_sims.append(0)
-
-        w2vec_sims.append(get_word2vec_sim(row_set1, row_set2))
+        
+        w2vec_sims1.append(get_word2vec_sim(row_set1, row_set2, model))
+        # w2vec_sims1.append(get_word2vec_sim(row_set1, row_set2, model1))
+        # w2vec_sims2.append(get_word2vec_sim(row_set1, row_set2, model2))
+        # w2vec_sims3.append(get_word2vec_sim(row_set1, row_set2, model3))
+        # w2vec_sims4.append(get_word2vec_sim(row_set1, row_set2, model4))
 
     dataset['Ngram1' + '_' + string_type] = ngrams1
     dataset['Ngram2' + '_' + string_type] = ngrams2
@@ -219,6 +266,10 @@ def calculate_features(dataset, string_type):
     dataset['OverlapCoef' + '_' + string_type] = ovs
     dataset['Needleman-Wunsch' + '_' + string_type] = nws
     dataset['Wordnet_sim' + '_' + string_type] = wordnet_sims
-    dataset['Word2vec_sim' + '_' + string_type] = w2vec_sims
+    dataset['Word2vec_sim1' + '_' + string_type] = w2vec_sims1
+    # dataset['Word2vec_sim1' + '_' + string_type] = w2vec_sims1
+    # dataset['Word2vec_sim2' + '_' + string_type] = w2vec_sims2
+    # dataset['Word2vec_sim3' + '_' + string_type] = w2vec_sims3
+    # dataset['Word2vec_sim4' + '_' + string_type] = w2vec_sims4
 
     return dataset
