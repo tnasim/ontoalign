@@ -81,12 +81,14 @@ over_coef = OverlapCoefficient()
 print('Loading word2vec model...')
 # model = KeyedVectors.load_word2vec_format('GoogleNews-vectors-negative300.bin', binary=True)
 # model = api.load("glove-wiki-gigaword-300")
-model = api.load("conceptnet-numberbatch-17-06-300")
+# model = api.load("conceptnet-numberbatch-17-06-300")
+model = api.load("glove-wiki-gigaword-300")
 
 # model1 = api.load("glove-wiki-gigaword-300")
 # model2 = api.load("word2vec-google-news-300")
 # model3 = api.load("glove-twitter-200")
 # model4 = api.load("fasttext-wiki-news-subwords-300")
+# model5 = api.load("conceptnet-numberbatch-17-06-300")
 
 # corpus = api.load('wiki-english-20171001')
 # model = Word2Vec(corpus)
@@ -167,6 +169,7 @@ def calculate_features(dataset, string_type):
     w2vec_sims2 = []
     w2vec_sims3 = []
     w2vec_sims4 = []
+    w2vec_sims5 = []
 
     if string_type == 'Entity':
         index = 2
@@ -237,6 +240,7 @@ def calculate_features(dataset, string_type):
         # w2vec_sims2.append(get_word2vec_sim(row_set1, row_set2, model2))
         # w2vec_sims3.append(get_word2vec_sim(row_set1, row_set2, model3))
         # w2vec_sims4.append(get_word2vec_sim(row_set1, row_set2, model4))
+        # w2vec_sims5.append(get_word2vec_sim(row_set1, row_set2, model5))
 
     dataset['Ngram1' + '_' + string_type] = ngrams1
     dataset['Ngram2' + '_' + string_type] = ngrams2
@@ -271,5 +275,6 @@ def calculate_features(dataset, string_type):
     # dataset['Word2vec_sim2' + '_' + string_type] = w2vec_sims2
     # dataset['Word2vec_sim3' + '_' + string_type] = w2vec_sims3
     # dataset['Word2vec_sim4' + '_' + string_type] = w2vec_sims4
+    # dataset['Word2vec_sim5' + '_' + string_type] = w2vec_sims5
 
     return dataset
